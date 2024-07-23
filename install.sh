@@ -6,11 +6,6 @@ fi
 
 # Install necessary dependencies
 sudo apt update && sudo apt upgrade -y
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh ./get-docker.sh
-sudo usermod -aG docker "$USER"
-newgrp docker
-sudo rm ./get-docker.sh
 sudo apt install -y jq net-tools nginx
 
 # Create the /opt/devopsfetch directory
@@ -36,16 +31,12 @@ ExecStart=/opt/devopsfetch/system_monitor.sh
 Restart=always
 User=root
 Group=root
-StandardOutput=append:/var/log/system_monitor.log
-StandardError=append:/var/log/system_monitor.log
 
 [Install]
 WantedBy=multi-user.target
 EOL
 
 # Reload systemd, enable and start the devopsfetch service
-systemctl enable docker
-systemctl start docker
 systemctl enable nginx
 systemctl start nginx
 sudo systemctl daemon-reload
