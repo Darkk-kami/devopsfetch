@@ -24,11 +24,16 @@ log_header() {
 # Function to log user login information
 log_user_info() {
     {
-        echo "User login information:"
-        echo "----------------------------------------"
-        lastlog | column -t
-        echo "----------------------------------------"
-        echo
+    echo -e "Username\tLast Login"
+    echo -e "--------\t----------"
+
+    # Get user list and last login details
+    while IFS=: read -r username _ _ uid _ _ _; do
+        if [ "$uid" -ge 1000 ] && [ "$uid" != 65534 ]; then
+            log_in_time
+            printf "%-15s %s\n" "$username" "$last_login"
+        fi
+    done < /etc/passwd
     } >> "$LOG_FILE"
 }
 
