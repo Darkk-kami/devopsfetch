@@ -22,6 +22,7 @@ sudo cp -r . /opt/devopsfetch
 # Create a symbolic link to make devopsfetch available system-wide
 sudo ln -sf /opt/devopsfetch/devopsfetch.sh /usr/local/bin/devopsfetch
 sudo chmod +x /opt/devopsfetch/devopsfetch.sh
+sudo chmod +x /opt/devopsfetch/system_monitor.sh
 sudo touch /var/log/system_monitor.log
 sudo chmod 666 /var/log/system_monitor.log
 
@@ -33,6 +34,10 @@ Description=Devopsfetch System Monitor
 [Service]
 ExecStart=/opt/devopsfetch/system_monitor.sh
 Restart=always
+User=root
+Group=root
+StandardOutput=append:/var/log/system_monitor.log
+StandardError=append:/var/log/system_monitor.log
 
 [Install]
 WantedBy=multi-user.target
