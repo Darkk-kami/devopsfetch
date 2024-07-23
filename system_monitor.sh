@@ -38,8 +38,7 @@ log_user_info() {
 # Function to log listening ports
 log_ports_info() {
     {
-        echo "Listening ports:"
-        echo "----------------------------------------"
+        echo -e "\n\nListening ports:"
         echo -e "Protocol\tLocal Address\t\tPort\tState\tService"
         echo -e "--------\t-------------\t\t----\t-----\t-------"
         ss -tuln | awk 'NR>1 {print $1, $5, $2}' | while read -r protocol address state; do
@@ -78,7 +77,6 @@ log_docker_info() {
 log_nginx_info() {
     {
         echo "Nginx configured domains:"
-        echo "----------------------------------------"
         echo -e "DOMAIN\t\t\tPROXY_PASS_URL"
         grep -r "server_name" /etc/nginx/sites-enabled/ | while read -r line; do
             conf=$(echo "$line" | cut -d':' -f1)
@@ -94,7 +92,8 @@ log_nginx_info() {
 # Function to log the completion of checks
 log_footer() {
     {
-        echo "$(date): Checks completed."
+        echo "$(date): Check completed."
+        echo "========================================"
         echo "========================================"
     } >> "$LOG_FILE"
 }
