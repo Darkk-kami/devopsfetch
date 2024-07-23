@@ -8,9 +8,16 @@ mkdir -p "$LOG_DIR"
 # Function to log a header
 log_header() {
     {
-        echo "----------------------------------------"
-        echo "$(date): Running system checks"
-        echo "----------------------------------------"
+    echo -e "Username\tLast Login"
+    echo -e "--------\t----------"
+
+    # Get user list and last login details
+    while IFS=: read -r username _ _ uid _ _ _; do
+        if [ "$uid" -ge 1000 ] && [ "$uid" != 65534 ]; then
+            log_in_time
+            printf "%-15s %s\n" "$username" "$last_login"
+        fi
+    done < /etc/passwd
     } >> "$LOG_FILE"
 }
 
