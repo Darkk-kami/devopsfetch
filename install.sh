@@ -21,6 +21,7 @@ sudo cp -r . /opt/devopsfetch
 
 # Create a symbolic link to make devopsfetch available system-wide
 sudo ln -sf /opt/devopsfetch/devopsfetch.sh /usr/local/bin/devopsfetch
+sudo chmod +x /opt/devopsfetch/devopsfetch.sh
 
 # Create a systemd service file for continuous monitoring
 sudo tee /etc/systemd/system/devopsfetch.service > /dev/null <<EOL
