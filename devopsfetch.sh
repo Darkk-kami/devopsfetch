@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Source individual scripts
-source ./scripts/docker_info.sh
-source ./scripts/nginx_info.sh
-source ./scripts/port_info.sh
-source ./scripts/system_monitor.sh
-source ./scripts/time_info.sh
-source ./scripts/user_info.sh
+BASE_DIR="/opt/devopsfetch/scripts"
+# Source other scripts
+source "$BASE_DIR/docker_info.sh"
+source "$BASE_DIR/nginx_info.sh"
+source "$BASE_DIR/port_info.sh"
+source "$BASE_DIR/system_monitor.sh"
+source "$BASE_DIR/time_info.sh"
+source "$BASE_DIR/user_info.sh"
 
 print_help() {
     echo "Usage: devopsfetch [OPTIONS]"
