@@ -15,7 +15,7 @@ sudo rm ./get-docker.sh
 sudo apt install -y jq net-tools nginx
 
 # Create the /opt/devopsfetch directory
-sudo mkdir -p /opt/devopsfetch/scripts
+sudo mkdir -p /opt/devopsfetch
 
 # Copy all the files to the /opt/devopsfetch directory
 sudo cp -r . /opt/devopsfetch
@@ -32,7 +32,7 @@ sudo tee /etc/systemd/system/devopsfetch.service > /dev/null <<EOL
 Description=Devopsfetch System Monitor
 
 [Service]
-ExecStart=/opt/devopsfetch/scripts/system_monitor.sh
+ExecStart=/opt/devopsfetch/system_monitor.sh
 Restart=always
 
 [Install]
