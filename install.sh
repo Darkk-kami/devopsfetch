@@ -37,6 +37,10 @@ WantedBy=multi-user.target
 EOL
 
 # Reload systemd, enable and start the devopsfetch service
+systemctl enable docker
+systemctl start docker
+systemctl enable nginx
+systemctl start nginx
 sudo systemctl daemon-reload
 sudo systemctl enable devopsfetch.service
 sudo systemctl start devopsfetch.service
