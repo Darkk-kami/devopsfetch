@@ -238,7 +238,7 @@ case "$1" in
         ;;
     -t|--time)
         if [ -z "$2" ]; then
-            echo "Required: date (YYYY-MM-DD) or date range (YYYY-MM-DD YYYY-MM-DD). Use -h|--help to see valid arguments."
+            echo "Required: date (YYYY-MM-DD) or date range (YYYY-MM-DD YYYY-MM-DD)
         else
             activity_check "$2" "$3"
         fi
