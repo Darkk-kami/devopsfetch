@@ -7,7 +7,7 @@ A tool aimed at collecting and displaying system information, such as active por
 * Docker installed
 * Sudo Privileges
 
-## Installatiom
+## Installation
 1. If You do not already have docker installed follow the link below on your preferred way of installing docker.
 [Docker installation guide](https://docs.docker.com/engine/install/)
 2. Clone this repository
