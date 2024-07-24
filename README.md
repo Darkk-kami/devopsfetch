@@ -30,7 +30,7 @@ This script:
 The log file is rotated and managed automatically.
 
 
-  confirm this service is running with the following command
+  Confirm this service is running with the following command
   ```
   sudo systemctl status devopsfetch.service
   ```
