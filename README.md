@@ -24,7 +24,10 @@ This script:
 * Updates all package lists
 * Makes sure the necessary dependencies are installed
 * Installs and enables the Nginx service
-* Creates a `devopsfetch.service` that automatically logs the devopsfetch information to a `/var/log/system_monitor.log` file every 10 minutes. The log file is rotated and managed automatically.
+* Creates a `devopsfetch.service` that automatically logs the devopsfetch information to a `/var/log/system_monitor.log` file every 10 minutes.
+
+
+The log file is rotated and managed automatically.
 
 
   confirm this service is running with the following command
@@ -36,7 +39,7 @@ This script:
   sudo cat /var/log/system_monitor.log
   ````
 
-### Options
+## Options
 These are the available commands that come with this tool:
 ```
 -p, --port [PORT_NUMBER] - Display all active ports and services or detailed information about a specific port.
