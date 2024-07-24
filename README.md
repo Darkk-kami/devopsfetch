@@ -10,7 +10,6 @@ A tool aimed at collecting and displaying system information, such as active por
 ## Installation
 1. If You do not already have docker installed follow the link below on your preferred way of installing docker.
 
-
     [Docker installation guide](https://docs.docker.com/engine/install/)
 
 3. Clone this repository
@@ -71,4 +70,9 @@ These are the available commands that come with this tool:
     Example:
     devopsfetch --help                # Display this help message
 ```
+
+### Additional Notes
+* If there is an issue with the docker flag options `-d, --docker [CONTAINER_NAME]`. Make sure you have docker priviledges or run the devopsfetch command with sudo
+
+
 
