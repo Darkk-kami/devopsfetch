@@ -12,6 +12,7 @@ A tool aimed at collecting and displaying system information, such as active por
 
 
 [Docker installation guide](https://docs.docker.com/engine/install/)
+
 3. Clone this repository
 4. Run the installation script with sudo priviledges
 ```
