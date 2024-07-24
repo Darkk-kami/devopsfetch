@@ -9,9 +9,11 @@ A tool aimed at collecting and displaying system information, such as active por
 
 ## Installation
 1. If You do not already have docker installed follow the link below on your preferred way of installing docker.
+
+
 [Docker installation guide](https://docs.docker.com/engine/install/)
-2. Clone this repository
-3. Run the installation script with sudo priviledges
+3. Clone this repository
+4. Run the installation script with sudo priviledges
 ```
 cd devopsfetch
 chmod +x install.sh
