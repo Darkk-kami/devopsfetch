@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Function to list Docker images and containers
-list_docker_images_containers() {
+docker_images_containers() {
     echo -e "\nDocker Images:"
     docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedSince}}\t{{.Size}}"
 
@@ -10,7 +10,7 @@ list_docker_images_containers() {
 }
 
 # Function to show container details
-container_details() {
+docker_container_details() {
     CONTAINER_NAME=$1
     echo "Showing Details for Docker Container: $CONTAINER_NAME"
     echo "......................................................."
@@ -42,12 +42,12 @@ nginx_domains() {
 }
 
 # Function to display detailed configuration information for a specific domain
-domain_info() {
+nginx_domain_info() {
     local domain=$1
     local config_file
 
     config_file=$(grep -rl "server_name $domain" /etc/nginx/sites-enabled/*)
-    
+
     if [[ -n $config_file ]]; then
         awk '
         /server_name/ {in_block=1}
@@ -60,7 +60,7 @@ domain_info() {
 }
 
 # Function to display listening ports
-display_ports() {
+show_active_ports() {
     echo -e "Protocol\tLocal Address\t\tPort\tState\tService"
     echo -e "--------\t-------------\t\t----\t-----\t-------"
 
@@ -83,7 +83,7 @@ display_ports() {
 }
 
 # Function to display details for a specific port
-display_port_details() {
+show_port_details() {
     PORT=$1
 
     port_details=$(ss -tuln | grep ":$PORT " | awk '{print $1, $5, $2}')
@@ -195,7 +195,7 @@ user_details() {
 }
 
 # Function to show help message
-show_help() {
+get_help() {
     echo "Usage: devopsfetch [option] [argument]"
     echo "Options:"
     echo "  -u, --users       List users or details for a specific user"
@@ -217,38 +217,38 @@ case "$1" in
         ;;
     -p|--ports)
         if [ -z "$2" ]; then
-            display_ports
+            show_active_ports
         else
-            display_port_details "$2"
+            show_port_details "$2"
         fi
         ;;
     -n|--nginx)
         if [ -z "$2" ]; then
             nginx_domains
         else
-            domain_info "$2"
+            nginx_domain_info "$2"
         fi
         ;;
     -d|--docker)
         if [ -z "$2" ]; then
-            list_docker_images_containers
+            docker_images_containers
         else
-            container_details "$2"
+            docker_container_details "$2"
         fi
         ;;
     -t|--time)
         if [ -z "$2" ]; then
-            echo "Required: date (YYYY-MM-DD) or date range (YYYY-MM-DD YYYY-MM-DD)
+            echo "Required: date (YYYY-MM-DD) or date range (YYYY-MM-DD YYYY-MM-DD)"
         else
             activity_check "$2" "$3"
         fi
         ;;
     -h|--help)
-        show_help
+        get_help
         ;;
     *)
         echo "Invalid option: $1"
-        show_help
+        get_help
         exit 1
         ;;
 esac
