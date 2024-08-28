@@ -30,7 +30,7 @@ jobs:
           script: |
             await github.request(`POST /repos/${{ github.repository }}/releases`, {
               tag_name: "v1.0.${{ github.run_number  }}",
-              body: "hello",
+              body: 'Description of the release',
               generate_release_notes: true
             });`
             
