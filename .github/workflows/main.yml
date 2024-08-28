@@ -21,6 +21,8 @@ jobs:
           release_name: Release ${{ github.run_number  }}
           draft: false
           prerelease: false
+
+          
       - name: Create release notes
         uses: actions/github-script@v4.0.2
         with:
