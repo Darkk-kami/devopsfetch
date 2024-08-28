@@ -25,8 +25,8 @@ jobs:
         uses: actions/github-script@v4.0.2
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          scripts: |
-            await.github.request(POST /repos/${{ github.repository }}/releases, {
+          script: |
+            await github.request(POST /repos/${{ github.repository }}/releases, {
               tag_name: "{{ github.ref }}",
               generate_release_notes: true
             });
