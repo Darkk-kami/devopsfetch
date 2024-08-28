@@ -1,9 +1,9 @@
-name: Create Release
-
 on:
   push:
     branches:
       - main
+name: Create Release
+
 
 jobs:
   build:
@@ -12,34 +12,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Set up Git tag
-        id: tag_version
-        run: |
-          TAG_VERSION=$(date +"v%Y%m%d%H%M%S")
-          echo "TAG_VERSION=${TAG_VERSION}" >> $GITHUB_ENV
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.TAG_VERSION }}  # Use the generated tag version
-          release_name: Release ${{ env.TAG_VERSION }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      
-      - name: Generate Release Notes
-        uses: actions/github-script@v4
+      - name: Create release notes
+        uses: actions/github-script@v4.0.2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: release } = await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: process.env.TAG_VERSION,
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          scripts: |
+            await.github.request(POST /repos/${{ github.repository }}/releases, {
+              tag_name: "{{ github.ref }}",
               generate_release_notes: true
             });
-            console.log('Release created with notes:', release.html_url);
 
