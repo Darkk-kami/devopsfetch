@@ -4,7 +4,6 @@ on:
       - main
 name: Create Release
 
-
 jobs:
   build:
     name: Create Release
