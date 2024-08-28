@@ -32,7 +32,7 @@ jobs:
               tag_name: "v1.0.${{ github.run_number  }}",
               body: 'Description of the release',
               generate_release_notes: true
-            });`
+            });
             
       - name: Create release notes 2
         uses: actions/github-script@v4.0.2
@@ -41,7 +41,7 @@ jobs:
           script: |
             await github.request(`POST /repos/${{ github.repository }}/releases/generate-notes`, {
               tag_name: "v1.0.${{ github.run_number  }}",
-            });`
+            });
   release:
     name: Release
     runs-on: ubuntu-latest
