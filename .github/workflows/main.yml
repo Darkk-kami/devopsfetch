@@ -5,22 +5,22 @@ on:
 name: Create Release
 
 jobs:
-  build:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create release notes
-        uses: actions/github-script@v4.0.2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.request(`POST /repos/${{ github.repository }}/releases`, {
-              tag_name: "v1.0.${{ github.run_number  }}",
-              body: '##Description of the release ##Im Batman',
-              generate_release_notes: true
-            });
+  # build:
+  #   name: Create Release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: Create release notes
+  #       uses: actions/github-script@v4.0.2
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         script: |
+  #           await github.request(`POST /repos/${{ github.repository }}/releases`, {
+  #             tag_name: "v1.0.${{ github.run_number  }}",
+  #             body: '##Description of the release ##Im Batman',
+  #             generate_release_notes: true
+  #           });
             
   release:
     name: Release
