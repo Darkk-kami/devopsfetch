@@ -41,7 +41,7 @@ jobs:
           script: |
             await github.request(`POST /repos/${{ github.repository }}/releases/generate-notes`, {
               tag_name: "v1.0.${{ github.run_number  }}",
-              configuration_file_path: .github/release.yml
+              configuration_file_path: '.github/release.yml'
             });
   release:
     name: Release
