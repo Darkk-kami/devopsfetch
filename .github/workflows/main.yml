@@ -48,6 +48,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install semantic-release and plugins
+        run: npm install semantic-release @semantic-release/git --save-dev
+
       # - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
       #   run: npm audit signatures
 
