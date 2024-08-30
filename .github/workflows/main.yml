@@ -1,64 +1,123 @@
+# on:
+#   push:
+#     branches:
+#       - main
+# name: Create Release
+
+# jobs:
+#   # build:
+#   #   name: Create Release
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - name: Checkout code
+#   #       uses: actions/checkout@v2
+#   #     - name: Create release notes
+#   #       uses: actions/github-script@v4.0.2
+#   #       with:
+#   #         github-token: ${{ secrets.GITHUB_TOKEN }}
+#   #         script: |
+#   #           await github.request(`POST /repos/${{ github.repository }}/releases`, {
+#   #             tag_name: "v1.0.${{ github.run_number  }}",
+#   #             body: '##Description of the release ##Im Batman',
+#   #             generate_release_notes: true
+#   #           });
+            
+#   release:
+#     name: Release
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write # to be able to publish a GitHub release
+#       issues: write # to be able to comment on released issues
+#       pull-requests: write # to be able to comment on released pull requests
+#       id-token: write # to enable use of OIDC for npm provenance
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "lts/*"
+#       - name: Generate package.json (if not existing)
+#         run: |
+#           if [ ! -f package.json ]; then
+#             echo '{}' > package.json
+#           fi
+#       - name: Install pnpm
+#         uses: pnpm/action-setup@v4
+#         with:
+#           version: 9
+#       - name: Install dependencies
+#         run: pnpm install
+
+#       - name: Install semantic-release and plugins
+#         run: pnpm install semantic-release @semantic-release/git --save-dev
+
+#       # - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+#       #   run: npm audit signatures
+
+#       - name: Release
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           NPM_TOKEN: ${{ secrets.PNPM_TOKEN }}
+#         run: pnpx semantic-release
+
+
+name: Staging Deployment
+
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-name: Create Release
+    paths-ignore:
+      - '.github/workflows/**'
 
 jobs:
-  # build:
-  #   name: Create Release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: Create release notes
-  #       uses: actions/github-script@v4.0.2
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         script: |
-  #           await github.request(`POST /repos/${{ github.repository }}/releases`, {
-  #             tag_name: "v1.0.${{ github.run_number  }}",
-  #             body: '##Description of the release ##Im Batman',
-  #             generate_release_notes: true
-  #           });
-            
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
+  build-and-copy:
+    if: github.event.repository.fork == false
+    runs-on: ubuntu
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "lts/*"
-      - name: Generate package.json (if not existing)
-        run: |
-          if [ ! -f package.json ]; then
-            echo '{}' > package.json
-          fi
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - name: Install dependencies
-        run: pnpm install
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "20"
 
+    - name: Cache pnpm modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+
+    - name: Install dependencies
+      run: pnpm install
+
+  release:
+    runs-on: aividci
+    needs: build-and-copy
+    permissions:
+      contents: write
+      issues: write 
+      pull-requests: write 
+      id-token: write
+    steps:
       - name: Install semantic-release and plugins
-        run: pnpm install semantic-release @semantic-release/git --save-dev
-
-      # - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-      #   run: npm audit signatures
-
+        run: |
+          pnpm install --store-dir ~/.pnpm-store
+          pnpm add semantic-release @semantic-release/git --save-dev
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.PNPM_TOKEN }}
         run: pnpx semantic-release
+
