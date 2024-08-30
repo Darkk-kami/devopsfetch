@@ -46,10 +46,10 @@ jobs:
           fi
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Install semantic-release and plugins
-        run: npm install semantic-release @semantic-release/git --save-dev
+        run: pnpm install semantic-release @semantic-release/git --save-dev
 
       # - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
       #   run: npm audit signatures
@@ -57,5 +57,5 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          NPM_TOKEN: ${{ secrets.PNPM_TOKEN }}
+        run: pnpx semantic-release
